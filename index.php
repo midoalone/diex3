@@ -50,6 +50,13 @@
         }
       });
 
+      // get healthinformation
+	$.ajax({
+        url: 'pizzarat.php?city=' + hash[0].city + '&restaurant=' + hash[0].name,
+        success: function(data) {
+          $('#health').html(data);
+        }
+      });
 
       }
 
