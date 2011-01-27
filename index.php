@@ -58,6 +58,15 @@
         }
       });
 
+	// get the Slideshow
+	$.ajax({
+        url: 'slide.php?city=' + hash[0].city,
+        success: function(data) {
+          $('#slideshow').html(data);
+        }
+      });
+
+
       }
 
 
