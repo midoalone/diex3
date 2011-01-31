@@ -3,15 +3,18 @@
 ?>
 <html>
   <head>
-    //Google Maps
+    <! -- http://www.colourlovers.com/palette/1408920/More_Than_I_Deserve -->
     <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAjU0EJWnWPMv7oQ-jjS7dYxQGj0PqsCtxKvarsoS-iqLdqZSKfxRdmoPmGl7Y9335WLC36wIGYa6o5Q&sensor=false" type="text/javascript"></script>
-    //Marker Clusterer
     <script src="http://gmaps-utility-library.googlecode.com/svn/trunk/markerclusterer/1.0/src/markerclusterer_packed.js" type="text/javascript"></script>
     <script src="data.js" type="text/javascript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script src="lib/jquery.equalHeightColumns.min.js"></script>
+
+    <link href='http://fonts.googleapis.com/css?family=Fontdiner+Swanky' rel='stylesheet' type='text/css'>
 
 
     <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="lib/tipTip.css" />
 
 
     <script type="text/javascript">
@@ -19,12 +22,11 @@
 
       //is fired when a marker is clicked
       function showRestaurant(hash) {
-        alert (hash["0"]["name"]);
         var location = new GLatLng(parseFloat(hash.lat), parseFloat(hash.lng));
 
         //get google maps picture
         var mappicture = "http://maps.google.com/maps/api/staticmap?sensor=false&center="+hash.lat+","+hash.lng+"&zoom=18&size=200x200&maptype=satellite";
-        $("#google_map_picture").html("<img src='"+mappicture+"'/>");
+        $("#google_map_picture").html("<h2>google map picture</h2><img src='"+mappicture+"'/>");
 
         //check whether streetview is available
         //if so, show it
@@ -39,11 +41,12 @@
             else {
                $("#pano").hide();
                $("#streetview_status").html("No streetview in the area available");
+              $("#google_streetview").hide();            
             }
          });
 
       //add address
-      $("#address").html("<h2>"+hash[0].name+"</h2>"+hash[0].addr+"<br>"+hash[0].city);
+      $("#address").html("<h2>address</h2><h3>"+hash[0].name+"</h3><br>"+hash[0].addr+"<br>"+hash[0].city);
 
       //get weather
 
@@ -117,6 +120,22 @@
 
 
 
+      
+        $("#overlay").ajaxStart(function(){
+           $(this).show();
+         });
+        $("#overlay").ajaxStop(function(){
+           $(this).hide();
+           $('#upperdisplays').equalHeightColumns
+            ({
+            });
+           $('#lowerdisplays').equalHeightColumns
+            ({
+            });
+
+         }); 
+
+        $("#overlay2").click(function(){$("#overlay2").hide();});
 
       });
     </script>
@@ -128,51 +147,77 @@
 
   <body>
 
-    <div class="content">
-      <div id="map" style="height: 800px"></div>
+    <div id="overlay" style="display: none;">
+      <div id="loading">
+        <img src="loading.gif"> 
+        <h1 style="color: #ffffff;">loading</h1>
+      </div>
     </div>
 
-    <div id="google_streetview" style="display:none;">
-        google streetview picture
+    <div id="overlay2" style="display: none;">
+      <div id="info">
+      </div>
+    </div>
+
+    <div class="header">
+      <img src="logo.png">
+    </div>
+
+<div id="wrapper">
+
+    <div id="upperdisplays">
+
+      <div id="google_map_picture" class="fourth">
+          <h2>google map picture</h2>
+      </div>
+
+      <div id="address" class="fourth">
+        <h2>address</h2>
+      </div>
+
+      <div id="weather" class="fourth">
+        <h2>weather</h2>
+      </div>
+
+      <div id="visitor_recommendations" class="fourth">
+        <h2>visitor recommendations</h2>
+      </div>
+    
+    </div>
+    <div class="clear"></div>
+
+    <div class="content">
+      <div id="map" ></div>
+    </div>
+
+    <div id="google_streetview" style="display:none; text-align: center;" class="full">
+        <h2>google streetview picture (approximate location)</h2>
         <div id="streetview_status"></div>
         <div name="pano" id="pano" style="width: 500px; height: 300px"></div>
     </div>
 
-    <div id="google_map_picture">
+    <div id="lowerdisplays">
 
-    </div>
-    <div id="address">
-      address
-    </div>
 
-    <div id="weather">
-      weather
-    </div>
+      <div id="slideshow" class="half">
+        <h2>Slideshow of the city</h2>
+      </div>
 
-    <div id="visitor_recommendations">
-      visitor recommendations
-    </div>
+      <div id="menu" class="half menu">
+        <h2>menu and nutrition information</h2>
+      </div>
 
-    <div id="menus">
-      menu (30 randomly chosen items) combined with health information?
-    </div>
+      <div id="health" class="half">
+        <h2>PizzaRat Health Inspection Scores</h2>
+      </div>
 
-    <div id="health">
-      PizzaRat Health Inspection Scores
+
+      <div id="other_restaurants" class="half">
+        <h2>show other restaurants in this city</h2>
+      </div>
     </div>
 
-    <div id="slideshow">
-      Slideshow of the city
-    </div>
-
-    <div id="other_restaurants">
-      show other restaurants in this city
-    </div>
-
-    <div id="menu">
-      show the menu
-    </div>
-    
+</div>
 
   </body>
 

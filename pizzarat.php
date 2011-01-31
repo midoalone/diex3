@@ -28,6 +28,6 @@ foreach($violations as $vio){
 
 $output .= '</ul>';
 if($output === '<ul></ul>')
-	die('Restaurant found in Pizza Rat. No Complainments in the Pizza Rat data base.');
+	die('Restaurant found in Pizza Rat. No Complaints in the Pizza Rat data base.');
 echo($output);
 ?>

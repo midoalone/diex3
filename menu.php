@@ -61,7 +61,7 @@ else
   $cuisine = "[cuisine:".str_replace(" ", "+", $type)."]";
 }
 $recipe_feed = file_get_contents("http://www.google.com/base/feeds/snippets?bq=[itemtype:recipes]".$cuisine.$ingredient);
-
+echo "<h2>menu and nutrition information</h2>";
 $recipes = simplexml_load_string($recipe_feed);
 foreach($recipes->entry as $child)
 {
@@ -70,6 +70,9 @@ foreach($recipes->entry as $child)
     //var_dump($b);
   //}
   //var_dump(($a->attributes()));
+
+  //var_dump($child);
+
 
   foreach($a->attributes() as $a => $b) {
      if ($a == "href") {
@@ -80,11 +83,12 @@ foreach($recipes->entry as $child)
 
   $title=sprintf("%s", $child->title);
 
-  echo "<a rel='external' href='".$link."'>".$title."</a><br>";
+  echo "<div><a rel='external' title='loading nutrition information' data-attr='".$title."' href='".$link."'>".$title."</a>
+  <a rel='external' href='#' class='tipTip' data-attr='".$title."'>Health Information</a>
+  <p class='hiddenhealth' style='display:none;'>Health Information</p></div>";
 }
 //$recipes = $recipes->entry;
 //var_dump($recipes);
-
-
-
+echo '<script>$(".tipTip").click(function(){$.ajax({url: "fatsecret.php?search="+$(this).attr("data-attr"), success: function(data) {$("#info").html(data); $("#overlay2").show();}});return false;});</script>';
+echo "<div class='clear' style='height:1px;'></div>";
 ?>
