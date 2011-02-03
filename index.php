@@ -73,6 +73,14 @@
             }
           });
 
+      // get Restaurants
+      $.ajax({
+            url: 'qype_places.php?lat=' + hash.lat + '&long=' + hash.lng,
+            success: function(data) {
+              $('#other_restaurants').html(data);
+            }
+          })
+
       //get menus
       $.ajax({
             url: 'menu.php?type=' + hash[0].type,
