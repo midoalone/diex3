@@ -124,7 +124,7 @@
           markers = [];
           $.each(data, function(index,value) {
             
-            if (value.google.city != undefined) {
+            if ((typeof(value.google.street)!="undefined")) {
               var latlng = new GLatLng(value.lat, value.lng);
               var marker = new GMarker(latlng);
 
