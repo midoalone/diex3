@@ -1,6 +1,6 @@
 <H2>Health Information</H2>
 <?php
-
+// Accesses the Pizza Rat API to get health information for a certain restaurant
 // Extract the parameter
 $city = str_replace(' ', '', $_GET['city']);
 $name = str_replace(' ', '%20', $_GET['restaurant']);

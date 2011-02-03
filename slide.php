@@ -1,4 +1,5 @@
 <?php
+//Uses the Panoramion API to include a slideshow of the city
 // Extract the parameter
 $city = str_replace(' ', '', $_GET['city']);
 $city = str_replace('%20', '', $_GET['city']);

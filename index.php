@@ -121,7 +121,7 @@
 
 
       $(document).ready(function() {
-          
+      //Initialize Google Map 
        if(GBrowserIsCompatible()) {
           var map = new GMap2(document.getElementById('map'));
           //try to center it on america... america fits into view on 1680x1050

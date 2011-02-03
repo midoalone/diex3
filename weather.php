@@ -1,4 +1,6 @@
 <?php
+//Uses the wunderground.com API to determine the weather at the currently selected location.
+
 $weather_feed = file_get_contents("http://api.wunderground.com/auto/wui/geo/WXCurrentObXML/index.xml?query=".$_GET["lat"].",".$_GET["lng"]);
 $weather = simplexml_load_string($weather_feed);
 if(!$weather) die('weather failed');

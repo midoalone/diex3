@@ -1,5 +1,6 @@
 <H2>Restaurants in the Neighbourhood</H2>
 <?php
+// Accesses the Qype API to determine restaurants in the are of the currently selected restaurant
 
 // Extract the parameter
 $long = isset($_GET['long']) ? str_replace(' ', '', $_GET['long']) : 0;

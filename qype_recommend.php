@@ -1,6 +1,6 @@
 <h2>Qype recommendations</h2>
 <?php
-
+// Accesses the Qype API to determine the "grade" that was given to the restaurant by recommenders of qype. The result is rendered using the google chart api. 
 // Extract the parameter
 if(!isset($_GET['city']) || !isset($_GET['name']))
 	die('No Location data available.');

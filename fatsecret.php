@@ -1,5 +1,4 @@
 <?php
-//fatsecret api uses deprecated methods
 //FatSecret API Classes are not really relevant here as they (usually) dont provide any method to gain a signature WHILE building a url - for example the time is read automatically inside the method - this makes it impossible to use the returned signature as we need to be able to send the time that was used to decrypt the signature in our http request.
 //We use http://platform.fatsecret.com/api/Default.aspx?screen=rapiauth ...
 

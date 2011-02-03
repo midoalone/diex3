@@ -1,5 +1,6 @@
 <?php
-//Scrape the Google Base Recipe Example
+//Use the Google Base Recipe API
+//map types to more or less useful queries
 //not ok: steakhouses, delis, pacific new wave, french bistro, french (new), french (classic), cafeterias, nuovo cucina italian, american (new), coffee bar, coffeehouses, delicatessen, tel caribbean, steak houses, eclectic, dive american, latin american, east european, buffets, coffee shops/diners, mexican/latin american/spanish, greek and middle eastern, russian/german, noodle shops, fast food, coffee shops, hamburgers, hot dogs, mexican/tex mex, diners, pan-asian, ukranian, cambodian
 //ok: american, french, californian, american (traditional), asian, japanese, italian, seafood, chinese, continental, scandinavian, indian, caribbean, southwestern, mexican, russian, mediterranean, greek, bbq, pacific rim, international, southern, southern/soul, thai, health food, cajun, middle eastern, eastern european, barbecue, fusion, vegetarian, cajun/creole, indonesian, chicken, desserts, pizza, vietnamese, afghan, cuban, polish, sandwiches, tex-mex, spanish, 
 
@@ -23,16 +24,16 @@ $remapping = array(
   "latin american" => array("cuisine" => "south american"), 
   "east european" => array("cuisine" => "eastern european"), 
   "buffets" => array("cuisine" => "italian"), 
-  "coffee shops/diners" => array("cuisine" => "sandiwches"), 
+  "coffee shops/diners" => array("cuisine" => "sandwiches"), 
   "mexian/latin american/spanish" => array("cuisine" => "south american"), 
   "greek and middle eastern" => array("cuisine" => "middle eastern"), 
-  "russian/german" => array("cuisine" => "russian&german"), 
+  "russian/german" => array("cuisine" => "russian german"), 
   "noodle shops" => array("cuisine" => "asian"), 
   "fast food" => array("cuisine" => "american"), 
   "coffee shops" => array("cuisine" => "sandwiches"), 
   "hamburgers" => array("cuisine" => "american"), 
   "hot dogs" => array("cuisine" => "american"), 
-  "mexican/tex-mex" => array("cuisine" => "mexican&tex-mex"), 
+  "mexican/tex-mex" => array("cuisine" => "mexican tex-mex"), 
   "diners" => array("cuisine" => "american"), 
   "pan-asian" => array("cuisine" => "asian"), 
   "ukranian" => array("cuisine" => "eastern european"), 
@@ -66,13 +67,6 @@ $recipes = simplexml_load_string($recipe_feed);
 foreach($recipes->entry as $child)
 {
   $a = ($child->link);
-  //foreach ($a as $b) {
-    //var_dump($b);
-  //}
-  //var_dump(($a->attributes()));
-
-  //var_dump($child);
-
 
   foreach($a->attributes() as $a => $b) {
      if ($a == "href") {
@@ -87,8 +81,6 @@ foreach($recipes->entry as $child)
   <a rel='external' href='#' class='tipTip' data-attr='".$title."'>Health Information</a>
   <p class='hiddenhealth' style='display:none;'>Health Information</p></div>";
 }
-//$recipes = $recipes->entry;
-//var_dump($recipes);
 echo '<script>$(".tipTip").click(function(){$.ajax({url: "fatsecret.php?search="+$(this).attr("data-attr"), success: function(data) {$("#info").html(data); $("#overlay2").show();}});return false;});</script>';
 echo "<div class='clear' style='height:1px;'></div>";
 ?>
