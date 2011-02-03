@@ -3,7 +3,6 @@
 ?>
 <html>
   <head>
-    <! -- http://www.colourlovers.com/palette/1408920/More_Than_I_Deserve -->
     <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAjU0EJWnWPMv7oQ-jjS7dYxQGj0PqsCtxKvarsoS-iqLdqZSKfxRdmoPmGl7Y9335WLC36wIGYa6o5Q&sensor=false" type="text/javascript"></script>
     <script src="http://gmaps-utility-library.googlecode.com/svn/trunk/markerclusterer/1.0/src/markerclusterer_packed.js" type="text/javascript"></script>
     <script src="data.js" type="text/javascript"></script>
@@ -18,10 +17,29 @@
 
 
     <script type="text/javascript">
+    
+    //In order to make use of encapsulation and parallel access to the APIs, we rely heavily
+    //on Asynchronous HTTP Requests (using jquery).
+    //Once a marker on the map is clicked, the function showRestaurant is started with the
+    //restaurant hash as a parameter
+    
+    //APIs which cannot be accessed via javascript are kept in separate php files and accessed via ajax
     var myPano;
-
+      
       //is fired when a marker is clicked
       function showRestaurant(hash) {
+
+        if (hash.google.city == undefined) {
+          hash.google.city == hash.google.adm1;
+        }
+
+        if (hash.google.city == undefined) {
+          hash.google.city == hash.google.adm2;
+        }
+
+        if (hash.google.city == undefined) {
+          hash.google.city == hash.google.adm3;
+        }
         var location = new GLatLng(parseFloat(hash.lat), parseFloat(hash.lng));
 
         //get google maps picture
@@ -46,7 +64,7 @@
          });
 
       //add address
-      $("#address").html("<h2>address</h2><h3>"+hash[0].name+"</h3><br>"+hash[0].addr+"<br>"+hash[0].city);
+      $("#address").html("<h2>address</h2><h3>"+hash[0].name+"</h3><br>"+hash.google.street+" "+hash.google.streetnumber+"<br>"+hash.google.city+", "+hash.google.adm1+"<br>"+hash.google.country);
 
       //get weather
 
@@ -59,7 +77,7 @@
 
       // get healthinformation
       $.ajax({
-            url: 'pizzarat.php?city=' + hash[0].city + '&restaurant=' + hash[0].name,
+            url: 'pizzarat.php?city=' + hash.google.city + '&restaurant=' + hash[0].name,
             success: function(data) {
               $('#health').html(data);
             }
@@ -67,7 +85,7 @@
 
       // get the Slideshow
       $.ajax({
-            url: 'slide.php?city=' + hash[0].city,
+            url: 'slide.php?city=' + hash.google.city,
             success: function(data) {
               $('#slideshow').html(data);
             }
@@ -97,16 +115,17 @@
           icon.image = "http://chart.apis.google.com/chart?cht=mm&chs=24x32&chco=FFFFFF,008CFF,000000&ext=.png";
           markers = [];
           $.each(data, function(index,value) {
+            
+            if (value.google.city != undefined) {
+              var latlng = new GLatLng(value.lat, value.lng);
+              var marker = new GMarker(latlng);
 
-            var latlng = new GLatLng(value.lat, value.lng);
-            var marker = new GMarker(latlng);
+              GEvent.addListener(marker, 'click', function() {
+                showRestaurant(value);
+              });
 
-            GEvent.addListener(marker, 'click', function() {
-              showRestaurant(value);
-            });
-
-            markers.push(marker);
-
+              markers.push(marker);
+            }
           });
 
         var markerCluster = new MarkerClusterer(map, markers);
