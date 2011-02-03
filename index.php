@@ -91,6 +91,14 @@
             }
           });
 
+      // get Recommendation
+      $.ajax({
+            url: 'qype_recommend.php?city=' + hash[0].city + '&name=' + hash[0].name,
+            success: function(data) {
+              $('#visitor_recommendations').html(data);
+            }
+          });
+
       // get Restaurants
       $.ajax({
             url: 'qype_places.php?lat=' + hash.lat + '&long=' + hash.lng,
@@ -207,7 +215,6 @@
       </div>
 
       <div id="visitor_recommendations" class="fourth">
-        <h2>visitor recommendations</h2>
       </div>
     
     </div>
