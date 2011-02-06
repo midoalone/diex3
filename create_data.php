@@ -29,7 +29,7 @@ function check_if_locality_is_present($result){
       $present = true;
     }
   }
-  if($present == false) {echo "No locality present!";} else {echo ("Locality present");}
+  if($present == false) {echo " No locality present! ";} else {echo (" Locality present" );}
   return $present;
 }
 
@@ -67,7 +67,7 @@ while(($data = mysql_fetch_assoc($result))) {
 //now eliminate duplicates (in the main array - still preserve them in the subarrays)
 $sql = 'SELECT * from dude';
 $result = mysql_query($sql);
-while(($data = mysql_fetch_assoc($result))) {
+while(($data = @mysql_fetch_assoc($result))) {
   array_push($restaurants_sql[(int)$data["id_1"]], $restaurants_sql[(int)$data["id_2"]][0]);
   unset($restaurants_sql[(int)$data["id_2"]]);
 }
@@ -118,7 +118,7 @@ foreach ($restaurants as $restaurant) {
   $restaurant["lat"] = $result->results[0]->geometry->location->lat;
   $restaurant["lng"] = $result->results[0]->geometry->location->lng;
   $restaurant["google"] = array();
-  echo("now adding google components");
+  echo(" now adding google components ");
   foreach($result->results[0]->address_components as $addr)
   {
     switch ($addr->types[0]) {
