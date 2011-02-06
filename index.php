@@ -131,16 +131,18 @@
           icon.image = "http://chart.apis.google.com/chart?cht=mm&chs=24x32&chco=FFFFFF,008CFF,000000&ext=.png";
           markers = [];
           $.each(data, function(index,value) {
-            
-            if ((typeof(value.google.street)!="undefined")) {
-              var latlng = new GLatLng(value.lat, value.lng);
-              var marker = new GMarker(latlng);
+          
+            if ((typeof(value.google)!="undefined")) {
+              if ((typeof(value.google.street)!="undefined")) {
+                var latlng = new GLatLng(value.lat, value.lng);
+                var marker = new GMarker(latlng);
 
-              GEvent.addListener(marker, 'click', function() {
-                showRestaurant(value);
-              });
+                GEvent.addListener(marker, 'click', function() {
+                  showRestaurant(value);
+                });
 
-              markers.push(marker);
+                markers.push(marker);
+              }
             }
           });
 

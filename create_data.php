@@ -85,17 +85,7 @@ foreach ($restaurants as $restaurant) {
   $url = "http://maps.googleapis.com/maps/api/geocode/json?address=".urlencode($addr)."+,".urlencode($restaurant[0]['city']).",USA&sensor=false";
   echo "\n".$counter.": ".$url;
   $result = json_decode(file_get_contents($url));
-function check_if_locality_is_present($result){
-  $present = false;
-  foreach($result->results[0]->address_components as $addr)
-  {
-    if ($addr->types[0]=="locality") {
-      $present = true;
-    }
-  }
-  if($present == false) {echo "No locality present!";} else {echo ("Locality present");}
-  return $present;
-}
+
   //var_dump($result);
   $rstatus=true;
   if($result->status == "ZERO_RESULTS") {
@@ -128,6 +118,7 @@ function check_if_locality_is_present($result){
   $restaurant["lat"] = $result->results[0]->geometry->location->lat;
   $restaurant["lng"] = $result->results[0]->geometry->location->lng;
   $restaurant["google"] = array();
+  echo("now adding google components");
   foreach($result->results[0]->address_components as $addr)
   {
     switch ($addr->types[0]) {
@@ -159,14 +150,15 @@ function check_if_locality_is_present($result){
 
 
   }
-    if (!isset($restaurant["google"]["street"])) {
+    if (isset($restaurant["google"]["street"])) {
       $restaurants[$counter]=$restaurant;
-      var_dump($restaurant["google"]);
+      //var_dump($restaurant);
     }
   }
   echo "\n".$counter." lat:".$restaurant["lat"]." lng:".$restaurant["lng"];
   sleep(1);
   $counter+=1;
+  //die("asd");
 }
 
 echo "</pre>";
